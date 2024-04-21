@@ -1,0 +1,31 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main() {
+    setlocale(LC_ALL, "rus");
+
+    ofstream out;
+    out.open("a.txt");
+    if (out.is_open()) out << "1.2 0.0 0.5 0.6 0.0 5.7 8.9 0.0 0.3" << endl;
+    out.close();
+
+    ifstream in;
+    in.open("a.txt");
+
+    double number;
+    int cnt = 0;
+    double product = 1.0;
+
+    while (in >> number) {
+        if (number == 0) cnt++;
+        if (number < 1 && number > 0) product *= number;
+    }
+
+    in.close();
+
+    cout << "Количество нулевых элементов: " << cnt << endl;
+    cout << "Произведение элементов меньших 1 и больших 0: " << product << endl;
+
+    return 0;
+}
