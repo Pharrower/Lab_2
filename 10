@@ -1,0 +1,52 @@
+#include <iostream>
+#include <string>
+#include <fstream>
+
+using namespace std;
+
+struct Student {
+    string name;
+    double group;
+    string mark;
+    int grant;
+};
+
+int main() {
+    setlocale(LC_ALL, "Russian");
+    const int num_stidents = 3; // ввод данных клиентов в массив структур
+    Student students[num_stidents];
+
+    for (int i = 0; i < num_stidents; i++) {
+        cout << "Введите фамилию студента " << i + 1 << ": ";
+        cin >> students[i].name;
+        cout << "Введите номер группы студента " << i + 1 << ": ";
+        cin >> students[i].group;
+        cout << "Введите успеваемость студента " << i + 1 << ": ";
+        cin >> students[i].mark;
+        cout << "Введите размер стипендии студента " << i + 1 << ": ";
+        cin >> students[i].grant;
+        cout << endl;
+    }
+
+    ofstream out("C:\\Users\\Vika\\Desktop\\students.bin", ios::binary); // запись массива структур в би-нарный файл
+    for (int i = 0; i < num_stidents; i++) {
+        out.write((char*)&students[i], sizeof(Student));
+    }
+    out.close();
+
+    // Перезапись бинарного файла с уменьшением размера стипендии на 20% для студентов, у которых есть хотя бы одна двойка
+    ifstream in("C:\\Users\\Vika\\Desktop\\students.bin", ios::binary);
+    ofstream out2("C:\\Users\\Vika\\Desktop\\students_new.bin", ios::binary);
+    for (int i = 0; i < num_stidents; i++) {
+        in.read((char*)&students[i], sizeof(Student));
+        int n = students[i].mark.find('2');
+        if (n >= 0) {
+            students[i].grant *= 0.8;
+            cout << "Стипендия студента " << students[i].name << " снижена на 20% и теперь составляет " << students[i].grant << " рублей" << endl;
+        }
+        out2.write((char*)&students[i], sizeof(Student));
+    }
+    in.close();
+    out2.close();
+    return 0;
+}
