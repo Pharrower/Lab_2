@@ -1,0 +1,50 @@
+#include <iostream>
+#include <fstream>
+#include <string> 
+using namespace std;
+
+int main() {
+    setlocale(LC_ALL, "rus");
+
+    // Открываем файл для записи
+    ofstream file("a.txt");
+
+    // Записываем буквы и цифры в файл
+    string input = "ABC123JKL89MN09PKL56";
+    file << input;
+
+    // Закрываем файл
+    file.close();
+
+    // Открываем изначальный файл для чтения
+    ifstream first_file("a.txt");
+
+    // Открываем файл для записи букв
+    ofstream letters("letters.txt");
+
+    // Открываем файл для записи цифр
+    ofstream numbers("numbers.txt");
+
+    // Считываем символы из файла
+    char c;
+    while (first_file.get(c)) {
+        if (isalpha(c)) letters << c << " ";
+        else if (isdigit(c)) numbers << c << " ";
+    }
+
+    // Закрываем файлы
+    first_file.close();
+    letters.close();
+    numbers.close();
+
+    // Выводим содержимое файлов
+    string line1, line2;
+
+    ifstream letters_string("letters.txt");
+    ifstream numbers_string("numbers.txt");
+
+    while (getline(letters_string, line1)) cout << "Содержимое нового файла с буквами: " << line1 << endl;
+    while (getline(numbers_string, line2)) cout << "Содержимое нового файла с цифрами: " << line2 << endl;
+
+    return 0;
+}
