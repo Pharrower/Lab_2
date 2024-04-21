@@ -1,0 +1,37 @@
+#include <iostream>
+#include <fstream>
+#include <string> 
+using namespace std;
+
+int main() {
+    setlocale(LC_ALL, "rus"); 
+
+    ofstream input("f.txt");
+    input << "-1   1   -2   2   -3   3" << endl;
+    input.close();
+
+    ifstream old_file("f.txt");
+    ofstream help_file("h.txt");
+    ofstream new_file("g.txt");
+
+    int n;
+    while (old_file >> n) {
+        if (n > 0) new_file << n << " ";
+        else help_file << n << " ";
+
+    }
+
+    old_file.close();
+    help_file.close();
+    new_file.close();
+
+    string line1, line2;
+
+    ifstream final("g.txt");
+    ifstream help("h.txt");
+
+    while (getline(final, line1)) cout << "Новое расположения компонентов файла: " << line1;
+    while (getline(help, line2)) cout << line2 << endl;
+
+    return 0;
+}
