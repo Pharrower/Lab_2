@@ -1,0 +1,49 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+using namespace std;
+
+int main() {
+    setlocale(LC_ALL, "rus");
+
+    vector<double> numbers;
+
+    // Ввод вещественных чисел
+    cout << "Введите вещественные числа (для завершения введите любую букву):" << endl;
+    double number;
+    while (cin >> number) {
+        numbers.push_back(number);
+    }
+
+    // Запись чисел в бинарный файл
+    ofstream file("numbers.bin", ios::out | ios::binary);
+    for (int i = 0; i < numbers.size(); i++) {
+        file.write((char*)&numbers[i], sizeof(double));
+    }
+    file.close();
+
+    // Чтение и изменение чисел в бинарном файле
+    fstream new_file("numbers.bin", ios::in | ios::binary);
+    vector<double> new_numbers;
+    while (new_file.read((char*)&number, sizeof(double))) {
+        number *= 1.5;
+        new_numbers.push_back(number);
+    }
+    file.close();
+
+    // Вывод чисел до изменения данных
+    cout << "Числа до изменения данных:" << endl;
+    for (int i = 0; i < numbers.size(); i++) {
+        cout << numbers[i] << " ";
+    }
+    cout << endl;
+
+    // Вывод чисел после изменения данных
+    cout << "Числа после изменения данных:" << endl;
+    for (int i = 0; i < new_numbers.size(); i++) {
+        cout << new_numbers[i] << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
