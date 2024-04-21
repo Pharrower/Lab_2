@@ -1,0 +1,88 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string> 
+
+using namespace std;
+
+int main() {
+    setlocale(LC_ALL, "rus");
+    int k, l, m, n;
+    vector<vector<vector<int>>> matrices1, matrices2, resultMatrices;
+
+    // Чтение данных из файлов
+    ifstream file1("C:\\Users\\Vika\\Desktop\\file1.txt");
+    ifstream file2("C:\\Users\\Vika\\Desktop\\file2.txt");
+
+    // В первой строке файла записано кол-во матриц, во второй - кол-во строк, в третьей - кол-во столбцов
+    file1 >> k >> m >> n;
+    file2 >> l >> m >> n;
+
+    for (int i = 0; i < k; i++) {
+        vector<vector<int>> matrix(m, vector<int>(n));
+        for (int j = 0; j < m; j++) {
+            for (int k = 0; k < n; k++) {
+                file1 >> matrix[j][k];
+            }
+        }
+        matrices1.push_back(matrix);
+    }
+
+    for (int i = 0; i < l; i++) {
+        vector<vector<int>> matrix(m, vector<int>(n));
+        for (int j = 0; j < m; j++) {
+            for (int k = 0; k < n; k++) {
+                file2 >> matrix[j][k];
+            }
+        }
+        matrices2.push_back(matrix);
+    }
+
+    file1.close();
+    file2.close();
+
+    // Определение лишних матриц и их запись в третий файл
+    ofstream file3("C:\\Users\\Vika\\Desktop\\file3.txt");
+
+    if (k > l) {
+        resultMatrices = matrices1;
+        for (int i = l; i < k; i++) {
+            for (int j = 0; j < m; j++) {
+                for (int k = 0; k < n; k++) {
+                    file3 << matrices1[i][j][k] << " ";
+                }
+                file3 << endl;
+            }
+        }
+    }
+    else {
+        resultMatrices = matrices2;
+        for (int i = k; i < l; i++) {
+            for (int j = 0; j < m; j++) {
+                for (int k = 0; k < n; k++) {
+                    file3 << matrices2[i][j][k] << " ";
+                }
+                file3 << endl;
+            }
+        }
+    }
+
+    file3.close();
+
+    
+    // Вывод содержимого файлов
+    string line1, line2, line3;
+
+    ifstream file1_1("C:\\Users\\Vika\\Desktop\\file1.txt");
+    ifstream file2_2("C:\\Users\\Vika\\Desktop\\file2.txt");
+    ifstream file3_3("C:\\Users\\Vika\\Desktop\\file3.txt");
+
+    cout << "Содержимое 1 файла: " << endl;
+    while (getline(file1_1, line1)) cout << line1 << endl;
+    cout << "Содержимое 2 файла: " << endl;
+    while (getline(file2_2, line2)) cout << line2 << endl;
+    cout << "Содержимое 3 файла: " << endl;
+    while (getline(file3_3, line3)) cout << line3 << endl;
+
+    return 0;
+}
