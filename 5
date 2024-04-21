@@ -1,0 +1,56 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+using namespace std;
+
+struct Student {
+    string lastname;
+    string name;
+    string patronymic;
+    string gender;
+    string nationality;
+    int height;
+    int weight;
+    string date;
+    string number;
+    string address;
+    string school;
+    int grade;
+};
+
+int main() {
+    setlocale(LC_ALL, "Russian");
+    ifstream inputFile("C:\\Users\\Vika\\Desktop\\students.txt");
+    ofstream outputFile("C:\\Users\\Vika\\Desktop\\students1.txt");
+    vector<Student> students;
+    Student tempStudent;
+
+    while (inputFile >> tempStudent.lastname >> tempStudent.name >> tempStudent.patronymic >> tempStudent.gender >> tempStudent.nationality >> tempStudent.height >> tempStudent.weight >> tempStudent.date >> tempStudent.number >> tempStudent.address >> tempStudent.school >> tempStudent.grade) {
+        students.push_back(tempStudent);
+    }
+
+    for (const Student& student : students) {
+        if (student.grade > 4 && student.grade < 6) {
+            outputFile << "Фамилия: " << student.lastname << endl
+                << "Имя: " << student.name << endl
+                << "Отчество: " << student.patronymic << endl
+                << "Пол: " << student.gender << endl
+                << "Национальность: " << student.nationality << endl
+                << "Рост: " << student.height << endl
+                << "Вес: " << student.weight << endl
+                << "Дата рождения: " << student.date << endl
+                << "Номер телефона: " << student.number << endl
+                << "Адрес: " << student.address << endl
+                << "Школа: " << student.school << endl
+                << "Класс: " << student.grade << endl
+                << endl;
+
+        }
+    }
+
+    inputFile.close();
+    outputFile.close();
+
+    return 0;
+}
